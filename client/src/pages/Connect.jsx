@@ -1,7 +1,85 @@
-import React from "react";
+import React, { useState } from "react";
 import "../css/connect.css";
+import axiosClient from "../axios-client"
+import axios from 'axios';
+
 
 const Connect = () => {
+
+
+const [inputName, setInputName] = useState("");
+const [inputLast, setInputLast] = useState("");
+const [inputEmail, setInputEmail] = useState("");
+const [inputPhone, setInputPhone] = useState("");
+const [inputMessage, setInputMessage] = useState("");
+
+const handleInputName = (event) => {
+  setInputName(event.target.value);
+};
+
+const handleInputLast = (event) => {
+  setInputLast(event.target.value);
+};
+const handleInputEmail = (event) => {
+  setInputEmail(event.target.value);
+};
+
+const handleInputPhone = (event) => {
+  setInputPhone(event.target.value);
+};
+
+const handleInputMessage = (event) => {
+  setInputMessage(event.target.value);
+};
+
+
+
+const handleSubmit = (event) => {
+  event.preventDefault();
+
+  // console.log('Form submitted with value:', inputName);
+  // console.log('Form submitted with value:', inputLast);
+  // console.log('Form submitted with value:', inputEmail);
+  // console.log('Form submitted with value:', inputPhone);
+  // console.log('Form submitted with value:', inputMessage);
+
+  const payload = {
+    name: inputName,
+    last: inputLast,
+    email: inputEmail,
+    phone: inputPhone, 
+    message: inputMessage,
+    
+  }
+  console.log(payload);
+  // axiosClient.post('http://127.0.0.1:8000/api/connection', payload);
+  fetch('http://127.0.0.1:8000/api/store',{
+    method:'post',
+    body:JSON.stringify(
+      payload
+    ),
+    headers:{
+      'Accept':'application/json',
+      'Content-Type':'application/json',
+    }
+  }).then(function(response){
+    response.json().then(function(){
+      console.log(response)
+    })
+  })
+}
+
+//   const res = await axios.post('http://127.0.0.1:8000/api/connection', useState);
+  
+//   if(res.data.status === 200)
+//   {
+//     console.log(res.data.message);
+//   }
+// };
+
+
+
+
   return (
     <>
       <section className="banner white">
@@ -28,19 +106,21 @@ const Connect = () => {
             wedding planners for you to work with.
           </p>
         </div>
-        <form className="contact-form">
+        <form className="contact-form" onSubmit={handleSubmit}>
           <div className="name-col">
-            <input type="text" placeholder="First Name" />
-            <input type="text" placeholder="Last Name" />
+            <input type="text" placeholder="First Name" value={inputName} onChange={handleInputName} />
+            <input type="text" placeholder="Last Name" value={inputLast} onChange={handleInputLast} />
           </div>
-          <input type="text" placeholder="Email Address" />
-          <input type="text" placeholder="Phone Number" />
+          <input type="email" placeholder="Email Address" value={inputEmail} onChange={handleInputEmail} />
+          <input type="number" placeholder="Phone Number" value={inputPhone} onChange={handleInputPhone} />
           <textarea
             name="comment"
             id="comment-box"
             cols="30"
             rows="10"
             placeholder="Your Message"
+            value={inputMessage} 
+            onChange={handleInputMessage}
           ></textarea>
           <button className="btn primary-btn">Submit</button>
         </form>
