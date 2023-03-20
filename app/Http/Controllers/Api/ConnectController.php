@@ -25,4 +25,8 @@ class ConnectController extends Controller
             'message'=>'Message sent Successfully'
        ]);
     }
+
+    protected $routeMiddleware = [
+        'auth.basic' => \Illuminate\Auth\Middleware\AuthenticateWithBasicAuth::class,
+      ];
 }

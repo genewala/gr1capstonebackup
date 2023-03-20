@@ -34,7 +34,7 @@ const handleInputMessage = (event) => {
 
 
 
-const handleSubmit = (event) => {
+const handleSubmit = async (event) => {
   event.preventDefault();
 
   // console.log('Form submitted with value:', inputName);
@@ -44,29 +44,52 @@ const handleSubmit = (event) => {
   // console.log('Form submitted with value:', inputMessage);
 
   const payload = {
-    name: inputName,
-    last: inputLast,
+    firstname: inputName,
+    lastname: inputLast,
     email: inputEmail,
     phone: inputPhone, 
     message: inputMessage,
     
   }
   console.log(payload);
+
+  // axios.post('http://127.0.0.1:8000/api/connection', payload).then(response =>{
+  //   console.log(response)
+  // }).then(error =>{
+  //   console.log(error)
+  // })
+
+
+
+
   // axiosClient.post('http://127.0.0.1:8000/api/connection', payload);
-  fetch('http://127.0.0.1:8000/api/store',{
-    method:'post',
-    body:JSON.stringify(
-      payload
-    ),
-    headers:{
-      'Accept':'application/json',
-      'Content-Type':'application/json',
-    }
-  }).then(function(response){
-    response.json().then(function(){
-      console.log(response)
-    })
-  })
+  // fetch('http://localhost:8000/api/connection', {
+  //   method:'post',
+  //   body:JSON.stringify(
+  //     payload
+  //   ),
+  //   headers:{
+  //     'Accept':'application/json',
+  //     'Content-Type':'application/json',
+  //   }
+  // }).then(function(response){
+  //   response.json().then(function(){
+  //     console.log(response)
+  //   })
+  // })
+
+    await axios
+      .post("http://127.0.0.1:8000/api/connection", payload, {
+        headers: { "Content-Type": "aplication/json" },
+      })
+      .then(function (resp) {
+        console.log(resp.data);
+      })
+      .catch(function (err) {
+        console.error(err.response.data);
+      });
+
+
 }
 
 //   const res = await axios.post('http://127.0.0.1:8000/api/connection', useState);
